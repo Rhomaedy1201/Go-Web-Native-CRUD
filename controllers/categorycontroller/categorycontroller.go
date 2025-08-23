@@ -47,7 +47,31 @@ func Add(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func Edit(w http.ResponseWriter, r *http.Request) {
-	// Display all categories
+	id := r.URL.Query().Get("id")
+
+	if r.Method == "GET" {
+		category := categorymodel.GetById(id)
+		temp, err := template.ParseFiles("views/category/edit.html")
+		if err != nil {
+			panic(err)
+		}
+
+		temp.Execute(w, category)
+	}
+
+	if r.Method == "POST" {
+		var category entities.Category
+
+		category.Name = r.FormValue("name")
+		category.UpdatedAt = time.Now()
+
+		if ok := categorymodel.Update(category, id); !ok {
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
+			return
+		}
+
+		http.Redirect(w, r, "/categories", http.StatusSeeOther)
+	}
 }
 func Delete(w http.ResponseWriter, r *http.Request) {
 	// Display all categories
