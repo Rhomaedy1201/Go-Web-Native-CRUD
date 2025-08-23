@@ -4,6 +4,7 @@ import (
 	"crud-go/config"
 	"crud-go/controllers/categorycontroller"
 	"crud-go/controllers/homecontroller"
+	"crud-go/controllers/productcontroller"
 	"log"
 	"net/http"
 )
@@ -14,7 +15,14 @@ func main() {
 	// 1. Home
 	http.HandleFunc("/", homecontroller.Welcome)
 
-	// 2. Categories
+	// 2. Products
+	http.HandleFunc("/products", productcontroller.Index)
+	http.HandleFunc("/products/add", productcontroller.Add)
+	http.HandleFunc("/products/detail", productcontroller.Detail)
+	http.HandleFunc("/products/edit", productcontroller.Edit)
+	http.HandleFunc("/products/delete", productcontroller.Delete)
+
+	// 3. Categories
 	http.HandleFunc("/categories", categorycontroller.Index)
 	http.HandleFunc("/categories/add", categorycontroller.Add)
 	http.HandleFunc("/categories/edit", categorycontroller.Edit)
