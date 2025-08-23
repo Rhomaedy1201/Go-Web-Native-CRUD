@@ -74,5 +74,12 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func Delete(w http.ResponseWriter, r *http.Request) {
-	// Display all categories
+	id := r.URL.Query().Get("id")
+
+	if ok := categorymodel.Delete(id); !ok {
+		http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
+		return
+	}
+
+	http.Redirect(w, r, "/categories", http.StatusSeeOther)
 }
