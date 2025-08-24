@@ -12,9 +12,14 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	categories := categorymodel.GetAll()
 	data := map[string]any {
 		"categories": categories,
+		"Active": "categories",
 	}
 
-	temp, err := template.ParseFiles("views/category/index.html")
+	temp, err := template.ParseFiles(
+		"views/layouts/base.html",
+		"views/partials/navbar.html",
+		"views/category/index.html",
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -23,7 +28,11 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 func Add(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		temp, err := template.ParseFiles("views/category/create.html")
+		temp, err := template.ParseFiles(
+			"views/layouts/base.html",
+			"views/partials/navbar.html",
+			"views/category/create.html",
+		)
 		if err != nil {
 			panic(err)
 		}
@@ -39,8 +48,8 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		category.UpdatedAt = time.Now()
 
 		if ok := categorymodel.Create(category); !ok {
-			temp, _ := template.ParseFiles("views/category/create.html")
-			temp.Execute(w, nil)
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
+			return
 		}
 
 		http.Redirect(w, r, "/categories", http.StatusSeeOther)
@@ -51,12 +60,20 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 		category := categorymodel.GetById(id)
-		temp, err := template.ParseFiles("views/category/edit.html")
+		data := map[string]any {
+			"category": category,
+			"Active": "categories",
+		}
+		temp, err := template.ParseFiles(
+			"views/layouts/base.html",
+			"views/partials/navbar.html",
+			"views/category/edit.html",
+		)
 		if err != nil {
 			panic(err)
 		}
 
-		temp.Execute(w, category)
+		temp.Execute(w, data)
 	}
 
 	if r.Method == "POST" {
