@@ -10,28 +10,31 @@
 
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign in</p>
 
-                                <form class="mx-1 mx-md-4">
+                                <form class="mx-1 mx-md-4" action="/login/auth" method="POST">
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                         <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="form3Example3c">Your Email</label>
-                                            <input type="email" id="form3Example3c" class="form-control" />
+                                            <label class="form-label" for="email">Your Email</label>
+                                            <input type="email" id="email" name="email" class="form-control" value="{{.Email}}" />
+                                            {{if .Errors.email}}<div class="text-danger small mt-1">{{.Errors.email}}</div>{{end}}
                                         </div>
                                     </div>
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                         <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="form3Example4c">Password</label>
-                                            <input type="password" id="form3Example4c" class="form-control" />
+                                            <label class="form-label" for="password">Password</label>
+                                            <input type="password" id="password" name="password" class="form-control" />
+                                            {{if .Errors.password}}<div class="text-danger small mt-1">{{.Errors.password}}</div>{{end}}
                                         </div>
                                     </div>
+
+                                    {{if .Errors.general}}<div class="alert alert-danger">{{.Errors.general}}</div>{{end}}
 
                                     <p class="text-center">Don't have an account? <a href="/register">Register here</a></p>
 
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                            class="btn btn-primary btn-lg">Login</button>
+                                        <button type="submit" class="btn btn-primary btn-lg">Login</button>
                                     </div>
 
                                 </form>
@@ -49,13 +52,8 @@
             </div>
         </div>
     </div>
-    <!-- {{if .FlashMessage}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            alert('{{.FlashMessage}}');
-        });
-    </script>
-    {{end}} -->
+
+    <!-- Flash message script dengan SweetAlert2 -->
     {{if .FlashMessage}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -63,7 +61,8 @@
                 title: 'Berhasil!',
                 text: '{{.FlashMessage}}',
                 icon: 'success',
-                confirmButtonText: 'OK'
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
             });
         });
     </script>

@@ -25,7 +25,11 @@ func IndexRegis(w http.ResponseWriter, r *http.Request){
 		panic(err)
 	}
 
-	temp.Execute(w, nil)
+	// Kirim data kosong dengan struktur yang sama
+	data := RegisterData{
+		Errors: make(map[string]string),
+	}
+	temp.Execute(w, data)
 }
 
 func RegisterUser(w http.ResponseWriter, r *http.Request){
