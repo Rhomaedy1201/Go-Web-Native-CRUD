@@ -2,6 +2,7 @@ package main
 
 import (
 	"crud-go/config"
+	"crud-go/controllers/authcontroller"
 	"crud-go/controllers/categorycontroller"
 	"crud-go/controllers/homecontroller"
 	"crud-go/controllers/productcontroller"
@@ -11,6 +12,11 @@ import (
 
 func main() {
 	config.ConnectDB()
+
+	// Auth
+	http.HandleFunc("/login", authcontroller.Index)
+	http.HandleFunc("/register", authcontroller.IndexRegis)
+	http.HandleFunc("/register/add", authcontroller.RegisterUser)
 
 	// 1. Home
 	http.HandleFunc("/", homecontroller.Welcome)
