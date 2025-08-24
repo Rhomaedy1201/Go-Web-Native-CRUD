@@ -1,0 +1,24 @@
+{{define "navbar"}}
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container">
+        <a class="navbar-brand text-light" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {{if eq .Active "home"}}active text-light{{else}}text-secondary{{end}}" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{if eq .Active "products"}}active text-light{{else}}text-secondary{{end}}" href="/products">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{if eq .Active "categories"}}active text-light{{else}}text-secondary{{end}}" href="/categories">Categories</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{{end}}

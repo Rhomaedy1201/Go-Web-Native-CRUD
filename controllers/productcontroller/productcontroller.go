@@ -15,9 +15,15 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	data := map[string]any {
 		"products": products,
+		"Active": "products",
 	}
 
-	temp, err := template.ParseFiles("views/product/index.html")
+	temp, err := template.ParseFiles(
+		"views/layouts/base.html",
+		"views/partials/navbar.html", 
+		"views/product/index.html", 
+	)
+
 	if err != nil {
 		panic(err)
 	}
@@ -30,8 +36,13 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		categories := categorymodel.GetAll()
 		dataCategories := map[string]any {
 			"categories": categories,
+			"Active": "products",
 		}
-		temp, err := template.ParseFiles("views/product/create.html")
+		temp, err := template.ParseFiles(
+			"views/layouts/base.html",
+			"views/partials/navbar.html", 
+			"views/product/create.html", 
+		)
 		if err != nil {
 			panic(err)
 		}
@@ -71,13 +82,22 @@ func Add(w http.ResponseWriter, r *http.Request) {
 func Detail(w http.ResponseWriter, r *http.Request) {
 	idProduct := r.URL.Query().Get("id")
 	product := productmodel.GetById(idProduct)
+	data := map[string]any {
+		"product": product,
+		"Active": "products",
+	}
 
-	temp, err := template.ParseFiles("views/product/detail.html")
+	temp, err := template.ParseFiles(
+		"views/layouts/base.html",
+		"views/partials/navbar.html", 
+		"views/product/detail.html", 
+	)
+
 	if err != nil {
 		panic(err)
 	}
 
-	temp.Execute(w, product)
+	temp.Execute(w, data)
 }
 func Edit(w http.ResponseWriter, r *http.Request) {
 	idProduct := r.URL.Query().Get("id")
@@ -89,9 +109,14 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		data := map[string]any {
 			"product": product,
 			"categories": categories,
+			"Active": "products",
 		}
 		
-		temp, err := template.ParseFiles("views/product/edit.html")
+		temp, err := template.ParseFiles(
+		"views/layouts/base.html",
+		"views/partials/navbar.html", 
+		"views/product/edit.html", 
+	)
 		if err != nil {
 			panic(err)
 		}
